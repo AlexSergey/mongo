@@ -1,5 +1,5 @@
 import { prop, buildSchema, addModelToTypegoose, ReturnModelType, modelOptions } from '@typegoose/typegoose';
-import { model, Mongoose } from 'mongoose';
+import { model, Mongoose, HydratedDocument } from 'mongoose';
 
 @modelOptions({ schemaOptions: { timestamps: { createdAt: true, updatedAt: true } } })
 class App {
@@ -8,6 +8,7 @@ class App {
 }
 
 export type IAppModel = ReturnModelType<typeof App>;
+export type IAppDocument = HydratedDocument<App>;
 
 let AppModel: IAppModel;
 
@@ -16,14 +17,17 @@ export const createAppModel = (mongoose: Mongoose): IAppModel => {
     return AppModel;
   }
 
-  const webhookSchema = buildSchema(App, {
-    timestamps: {
-      createdAt: 'created',
-      updatedAt: 'updated',
-    },
-  });
   AppModel = addModelToTypegoose(
-    model('App', webhookSchema, 'app-collection'),
+    model(
+      'App',
+      buildSchema(App, {
+        timestamps: {
+          createdAt: 'created',
+          updatedAt: 'updated',
+        },
+      }),
+      'app-collection'
+    ),
     App,
     {
       existingMongoose: mongoose,
