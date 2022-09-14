@@ -33,9 +33,6 @@ const init = async () => {
       env: 'test',
       url: 'test'
     });
-    AppModel.findOne({
-
-    })
   } catch (e) {
     const err = handleValidationError(e);
     console.log(err);

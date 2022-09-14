@@ -2,7 +2,7 @@ import { connect, Mongoose } from 'mongoose';
 
 export interface IDatabase {
   connect: () => Promise<Mongoose>;
-  close: () => Promise<void>;
+  close: () => void;
 }
 
 interface IOptions {
@@ -14,8 +14,8 @@ interface IOptions {
 let db: Mongoose;
 
 export const createDatabase = (connectionString: string, options: IOptions = {}): IDatabase => ({
-  close: async (): Promise<void> => {
-    await db?.connection?.close();
+  close: (): void => {
+    db?.connection?.close();
   },
 
   connect: async (): Promise<Mongoose> => {
