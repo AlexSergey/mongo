@@ -1,7 +1,7 @@
-import type { Config } from '@jest/types';
+import type { JestConfigWithTsJest } from 'ts-jest';
 import { jsWithTs } from 'ts-jest/presets';
 
-const config: Config.InitialOptions = {
+const config: JestConfigWithTsJest = {
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '<rootDir>/coverage/unit',
   moduleDirectories: ['node_modules'],
